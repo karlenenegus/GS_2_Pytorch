@@ -33,7 +33,8 @@ iranian_dth.columns = ['GID', 'DTM(Heat)', 'DTH(Heat)', 'DTM(Drought)', 'DTH(Dro
 iranian_dth = iranian_dth.tail(-1)
 iranian_dth = iranian_dth.sort_values('GID')
 # Replace missing data with NA
-iranian_dth = iranian_dth.replace("\W", np.NaN, regex=True).dropna(axis=0, thresh=2)
+pd.set_option('future.no_silent_downcasting', True)
+iranian_dth = iranian_dth.replace("\W", np.nan, regex=True).dropna(axis=0, thresh=2)
 # Drop any duplicated rows
 iranian_dth = iranian_dth.where(iranian_dth.duplicated(keep=False)==False).dropna(axis=0, thresh = 2)
 
@@ -44,7 +45,7 @@ iranian_pht.columns = ['GID', 'PHT(Drought)']
 iranian_pht = iranian_pht.tail(-1)
 iranian_pht = iranian_pht.sort_values('GID')
 # Replace missing data with NA
-iranian_pht = iranian_pht.replace("\W", np.NaN, regex=True).dropna(axis=0, thresh=2)
+iranian_pht = iranian_pht.replace("\W", np.nan, regex=True).dropna(axis=0, thresh=2)
 # Drop any duplicated rows
 iranian_pht = iranian_pht.where(iranian_pht.duplicated(keep=False)==False).dropna(axis=0, thresh = 2)
 
@@ -52,7 +53,7 @@ iranian_qt = pd.read_excel(os.path.join(args.data_dir, 'PHENOTYPIC DATA IRANIAN'
 # Names are good; just sort by genotype ID
 iranian_qt = iranian_qt.sort_values('GID')
 # Replace missing data with NA
-iranian_qt = iranian_qt.replace("\W", np.NaN, regex=True).dropna(axis=0, thresh=2)
+iranian_qt = iranian_qt.replace("\W", np.nan, regex=True).dropna(axis=0, thresh=2)
 # Drop any duplicated rows
 iranian_qt = iranian_qt.where(iranian_qt.duplicated(keep=False)==False).dropna(axis=0, thresh = 2)
 
@@ -72,18 +73,18 @@ snp_meta = iranian_snps.iloc[7:,:17]
 geno_meta = iranian_snps.iloc[:7,17:]
 snp_data = iranian_snps.iloc[7:-1, 17:]
 
-# Replace NaNs
-snp_data = snp_data.replace("-", float("NaN"))
+# Replace nans
+snp_data = snp_data.replace("-", float("nan"))
 
 #Remove suffix from GID names
 GID_names = snp_data.columns.to_series().str.split(".", expand=True)[0].to_frame().T
 #Filter SNP positions with least missing data; keep best 50%
-Nan_counts = snp_data.isna().sum().to_frame().T
-Nan_counts_rows = snp_data.T.isna().sum().to_frame()
-Nan_to_remove = Nan_counts_rows < Nan_counts_rows.quantile(q=0.5, axis = 0)
+nan_counts = snp_data.isna().sum().to_frame().T
+nan_counts_rows = snp_data.T.isna().sum().to_frame()
+nan_to_remove = nan_counts_rows < nan_counts_rows.quantile(q=0.5, axis = 0)
 
 #Merge snp data back together
-snp_data = pd.concat([GID_names, snp_data, Nan_counts], ignore_index=True)
+snp_data = pd.concat([GID_names, snp_data, nan_counts], ignore_index=True)
 
 last_row = snp_data.index[-1]
 first_row = snp_data.index[0]
@@ -99,7 +100,7 @@ unduplicated_genotypes.index = (unduplicated_genotypes.index + 6)
 unduplicated_genotypes.columns = unduplicated_genotypes.iloc[0, :]
 unduplicated_genotypes = unduplicated_genotypes.iloc[1:-1, :]
 
-SNP = unduplicated_genotypes[Nan_to_remove[0]]
+SNP = unduplicated_genotypes[nan_to_remove[0]]
 
 ############################################################
 #Join Phenotypes and SNPs
@@ -143,13 +144,13 @@ for col in snps:
         allele_freq.append(freq)
     else: 
         allele_freq.append(0)
-    snps[col] = snps[col].replace(to_replace=np.NaN, value = np.nanmean(snps[col]))
+    snps[col] = snps[col].replace(to_replace=np.nan, value = np.nanmean(snps[col]))
 
 snp_index = (np.array(allele_freq) > args.min_allele_freq) & (np.array(allele_freq) < args.max_allele_freq)
 new_snps = snps.loc[:, snp_index]
 
 pheno = input_data1b.iloc[:, -1]
-pheno = pheno.replace('nan', np.NaN)
+pheno = pheno.replace('nan', np.nan)
 pheno = pd.DataFrame(pheno)
 pheno = pheno.rename(columns={'length': "GL"})
 

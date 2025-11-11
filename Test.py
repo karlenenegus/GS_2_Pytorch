@@ -1,4 +1,5 @@
 import torch
+from pathlib import Path
 import torch.nn as nn
 import numpy as np
 import pandas as pd
@@ -135,6 +136,8 @@ for j in range(num_iterations):
         loss_curve[fold] = {"testing": test_loss_values, "training": train_loss_values}
         results[fold] = {"outputs": output_array1, "targets": target_array1, "loss": loss_array1, "input": input_array1, "PCA_input": PCA_data, "Epochs": epoch}
         save_path = f'./Output/Model-fold/model-fold-{j}-{fold+1}.pth'
+        if not Path(save_path).parent.exists():
+            Path(save_path).parent.mkdir(parents=True, exist_ok=True)
         torch.save(network.state_dict(), save_path)
 
     loc_results = f"./Output/Validation_output{j}.npy"

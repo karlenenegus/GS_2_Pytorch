@@ -24,7 +24,7 @@ args = parser.parse_args()
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Load input data
-input_data = torch.load(args.input_file)
+input_data = torch.load(args.input_file, weights_only=True)
 validation_split = args.validation_split
 
 # Determine input size

@@ -2,9 +2,9 @@
 
 # Run the training script with arguments
 python Kfold_train.py \
-    --folds 10 \
-    --epochs 400 \
-    --batch_size 17 \
+    --folds 3 \
+    --epochs 5 \
+    --batch_size 32 \
     --PCs 1691 \
     --model_type "DNNGP" \
     --lr 0.00001 \

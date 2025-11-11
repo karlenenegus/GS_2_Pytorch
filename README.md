@@ -34,7 +34,7 @@ The implementations here of the two models are:
 ├── Kfold_train.py         # K-fold cross-validation training script
 ├── Simple_train.py        # Simple training script with validation split
 ├── ObsVsPred_plot.py      # Visualization of observed vs predicted values
-├── ObsvsPred100.py        # Analysis script for multiple runs
+├── ObsVsPred100.py        # Analysis script for multiple runs
 ├── RunData.sh             # Shell script for data preprocessing
 ├── RunModel.sh            # Shell script for model training
 ├── requirements.txt       # Python dependencies
@@ -97,11 +97,11 @@ This script:
 ```bash
 # Using Python directly
 python Kfold_train.py \
-    --folds 10 \
-    --epochs 400 \
-    --batch_size 17 \
-    --PCs 1691 \
-    --model_type "DNNGP" \
+    --folds 3 \
+    --epochs 5 \
+    --batch_size 32 \
+    --PCs 1000 \
+    --model_type "DeepGS" \
     --lr 0.00001 \
     --momentum 0.5 \
     --weight_decay 0.00001 \
@@ -133,7 +133,7 @@ python Test.py
 python Simple_train.py
 
 # Or with custom parameters
-python Simple_train.py --epochs 50 --batch_size 32 --model_type DNNGP --lr 0.001 --validation_split 0.15
+python Simple_train.py --epochs 5 --batch_size 32 --model_type DNNGP --lr 0.001 --validation_split 0.15
 ```
 
 **Available flags for Simple_train.py:**
@@ -157,7 +157,7 @@ python ObsVsPred_plot.py \
     --metadata_file "./Output/metadata.npy" \
     --output_dir "./Output" \
     --title "Grain Length" \
-    --folds 10
+    --folds 3
 ```
 
 **Available flags for ObsVsPred_plot.py:**

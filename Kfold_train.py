@@ -19,7 +19,7 @@ parser.add_argument('--weight_decay', type=float, default=0.00001, help='Weight 
 parser.add_argument('--input_file', type=str, default='./Output/DNNGP_input.pt', 
                     help='Input data file path (default: ./Output/DNNGP_input.pt)')
 
-args = parse_args()
+args = parser.parse_args()
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 

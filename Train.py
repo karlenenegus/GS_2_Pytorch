@@ -1,4 +1,5 @@
 import torch
+from pathlib import Path
 import time
 import copy
 from sklearn.model_selection import KFold
@@ -165,6 +166,8 @@ def train(network, loss_fn, optimizer, epochs, input_data, batch_size, device, f
             loss_curve[fold] = {"testing": test_loss_values, "training": train_loss_values}
             results[fold] = {"outputs": output_array1, "targets": target_array1, "loss": loss_array1, "input": input_array1, "PCA_input": PCA_data}
             save_path = f'./Output/Model-fold/model-fold-{fold+1}.pth'
+            if not Path(save_path).parent.exists():
+                Path(save_path).parent.mkdir(parents=True, exist_ok=True)
             torch.save(network.state_dict(), save_path)
         
     elif folds == None:
@@ -194,6 +197,8 @@ def train(network, loss_fn, optimizer, epochs, input_data, batch_size, device, f
         loss_curve = {"testing": test_loss_values, "training": train_loss_values}
         results = {"outputs": output_array1, "targets": target_array1, "loss": loss_array1, "input": input_array1}
         save_path = f'./Output/Model-fold/model.pth'
+        if not Path(save_path).parent.exists():
+            Path(save_path).parent.mkdir(parents=True, exist_ok=True)
         torch.save(network.state_dict(), save_path)        
     else:
         print("Error in fold number")       
