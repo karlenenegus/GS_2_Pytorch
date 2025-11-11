@@ -45,20 +45,22 @@ The implementations here of the two models are:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd AIGSModels2Pytorch
+git clone GS_2_Pytorch
+cd GS_2_Pytorch
 ```
 
 2. Install dependencies:
+Use preferred environment manager. Implemented here with conda/micromamba.
+
 ```bash
-pip install -r requirements.txt
+conda create -f environment.yaml
 ```
 
 ## Usage
 
 ### Data Preparation
 
-First, prepare your data using `DNNGP_data.py` + custom parameters or the shell script:
+First, prepare the data from the DNNGP publication using `DNNGP_data.py` + custom parameters or the shell script:
 
 ```bash
 # Using Python Directly:
@@ -208,5 +210,4 @@ The input data should be organized as follows:
 Original papers:
 
 - DeepGS: Ma, W., Qiu, Z., Song, J., Li, J., Cheng, Q., Zhai, J. and Ma, C. A deep convolutional neural network approach for predicting phenotypes from genotypes. Planta 248, 1307–1318 (2018). https://doi.org/10.1007/s00425-018-2976-9
-
 - DNNGP: Wang, K., Abid, M.A., Rasheed, A., Crossa, J., Hearne, S. and Li, H. DNNGP, a deep neural network-based method for genomic prediction using multi-omics data in plants. Molecular Plant 16, 279-293 (2023). https://doi.org/10.1016/j.molp.2022.11.004
